@@ -29,21 +29,21 @@
 
 - The query parameter `chartType` can have the following values: `bar, line, scatter, pie, percentage`
 
-- - [Demo of the default chart using bars](http://localhost:3000/demo)
-  - [Demo of the default chart using parameter "line"](http://localhost:3000/demo?chartType=line)
+- - [Demo of the default chart using bars](https://wt-26c8d8dafc4cb18db903554c4e796c40-0.run.webtask.io/chart)
+  - [Demo of the default chart using parameter "line"](https://wt-26c8d8dafc4cb18db903554c4e796c40-0.run.webtask.io/chart?chartType=line)
 
 ------
 
 - url: `/post`
 - method: POST
-- The user can post data to this url and gets a chart in return
+- [The user can post data to this url and gets a chart in return](https://wt-26c8d8dafc4cb18db903554c4e796c40-0.run.webtask.io/chart/post)
 - This route also accept `chartType` as a parameter and his values
 
 ------
 
 - url: `/restricted`
 - method: GET
-- This is a example of route that needs authorization to access
+- [This is a example of route that needs authorization to access](https://wt-26c8d8dafc4cb18db903554c4e796c40-0.run.webtask.io/chart/restricted)
 
 ------
 

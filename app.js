@@ -90,9 +90,9 @@ app.get('/', (req, res) => {
         <li>The query parameter <code class="colored">chartType</code> can have the following 
           values: <code class="colored">bar, line, scatter, pie, percentage</code></li>
         <ul>
-          <li class="pad5"><a href="${WEBTASK_NAME}/demo" target="_blank">Demo of the default chart using 
+          <li class="pad5"><a href="${WEBTASK_NAME}/demo" target="_blank">Demo of default chart using 
             parameter "bar"</a></li>
-          <li class="pad5"><a href="${WEBTASK_NAME}/demo?chartType=line" target="_blank">Demo of the default chart 
+          <li class="pad5"><a href="${WEBTASK_NAME}/demo?chartType=line" target="_blank">Demo of default chart 
             using parameter "line"</a></li>
         </ul>
       </ul>  
@@ -195,19 +195,26 @@ app.get('/demo', (req, res) => {
  * Receive chart data from the request body and create a chart from it
  * Accept a query string parameter (chartType) to indicate the type of chart to draw
  * the same as '/demo' route
+ * The resulting chart can be embbeded in a iframe to show it
  */
 app.post('/post', (req, res) => {
 
   const chartType = req.query.chartType || 'bar';
+  const chartData = req.body;
+  let HTML;
 
   console.log('chart type:', chartType);
-  console.log('chart data:', req.body);
+  console.log('chart data:', chartData);
 
-  const HTML = renderHTML({
-    title: 'Chart dynamically created with data posted to the server',
-    chartType: chartType,
-    chartData: req.body
-  });
+  if(chartData.datasets && chartData.datasets.length > 0) {
+    HTML = renderHTML({
+      title: 'Chart dynamically created with data posted to the server',
+      chartType: chartType,
+      chartData: chartData
+    });
+  } else {
+    HTML = '<h1>Chart could not be created</h1><p>No data provided</p>';
+  }
 
   res.set('Content-Type', 'text/html');
 
