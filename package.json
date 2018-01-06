@@ -1,0 +1,29 @@
+{
+  "name": "webtask-charts",
+  "version": "1.0.0",
+  "description": "webtask charts",
+  "main": "app.js",
+  "scripts": {
+    "start": "node_modules\\.bin\\nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "live-server": "live-server --port=3000",
+    "debug": "node --inspect app.js"
+  },
+  "keywords": [
+    "webtasks.io",
+    "frappe",
+    "charts"
+  ],
+  "author": "yago.lopez@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "webtask-tools": "^3.2.0"
+  },
+  "devDependencies": {
+    "frappe-charts": "0.0.8",
+    "live-server": "^1.2.0",
+    "nodemon": "^1.14.7"
+  }
+}
