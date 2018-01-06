@@ -1,12 +1,9 @@
 //todo: caso de uso: con mas tiempo se podrian haber scrappeado los datos tabulares de otra web usando cheerio
 // para crear una gráfica
 
-'use latest';
-
 const express = require('express');
 const WebtaskTools = require('webtask-tools');
 const bodyParser = require('body-parser');
-// const frappeCharts = require('./node_modules/frappe-charts/dist/frappe-charts.min.cjs');
 const app = express();
 
 const WEBTASK_NAME = '';

@@ -5,7 +5,7 @@
 - Example of servless code running on https://webtask.io
 
 
-- Generates a responsive chart from posted data using <a href="https://frappe.github.io/charts/" target="_blank">Frappé Charts</a>
+- Generates a responsive charts data using <a href="https://frappe.github.io/charts/" target="_blank">Frappé Charts</a> library
 
 
 
@@ -53,9 +53,7 @@
 
 `{data: {labels: string[]}, datasets: {title: string, values: number[]}`
 
-Check [Frappé Charts](https://frappe.github.io/charts/) website for more information
-
-To make a POST request include the following data in the body and send a request to the webtask url adding `/post` to the path:
+For example, to make a POST request include the following data in the body and send a request to the webtask url adding `/post` to the path:
 
           {
           "labels": ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
@@ -76,6 +74,6 @@ To make a POST request include the following data in the body and send a request
             }
           ]
         }
-
+Check [Frappé Charts](https://frappe.github.io/charts/) website for more information
 
 Developed by Yago Lopez
