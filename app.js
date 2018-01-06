@@ -72,8 +72,8 @@ app.get('/', (req, res) => {
         .pad5 {padding: 5px}
       </style>
       <h1>Chart Webtask</h1>
-      <p>Generates a responsive chart using <a href="https://frappe.github.io/charts/" 
-        target="_blank">Frappé Charts</a></p>
+      <p>Generates responsive charts using <a href="https://frappe.github.io/charts/" 
+        target="_blank">Frappé Charts</a> Library</p>
       
       <h2>End points: </h2>
       <hr>
@@ -115,10 +115,9 @@ app.get('/', (req, res) => {
       
       <p><code class="colored">{data: {labels: string[]}, datasets: {title: string, values: number[]}</code></p>
       
-      <div>Check <a href="https://frappe.github.io/charts/" target="_blank">Frappé Charts</a> 
-        website for more information</div>
-      <p>For example. Making a POST request with the following data in the body to the webtask url and adding the
-        path <code>/post</code> will get the demo chart:</p>
+
+      <p>For example, to make a POST request include the following data in the body and send a request to the webtask url 
+        adding <code>/post</code> to the path:</p>
         <textarea>
           {
           "labels": ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
@@ -140,7 +139,9 @@ app.get('/', (req, res) => {
           ]
         }
         </textarea>
-        <p style="text-align: center">Developed by Yago Lopez</div>
+      <p>Check <a href="https://frappe.github.io/charts/" target="_blank">Frappé Charts</a> 
+        website for more information</p>
+      <p style="text-align: center">Developed by Yago Lopez</div>
     </body>
     </html>
   `)
