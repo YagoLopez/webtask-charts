@@ -12,13 +12,14 @@ const app = express();
 
 app.use(bodyParser.json());
 
+const WEBTASK_NAME = '/';
+
 const SERVER_ERROR = '<h1 style="color: red">Server Error</h1>';
 
 
-//todo: refactorizar locals nombre
 //todo: diferentes tipos de graficos
 //todo: probar a usar storage (lo veo dificil, no hay tiempo) podria comentarlo al fulano
-const renderView = (viewData) => {
+const renderHTML = (data) => {
   return `
     <!DOCTYPE html>
     <html>
@@ -29,17 +30,17 @@ const renderView = (viewData) => {
       <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Raleway" type="text/css">
     </head>
 
-    <body style="font-family: 'Raleway', sans-serif; padding: 8%; background: ghostwhite">
-      <h1>${viewData.title}</h1>
+    <body style="font-family: 'Raleway', sans-serif; padding: 10%; background: ghostwhite">
+      <h1>${data.title}</h1>
       
       <div id="chart"></div>
       
       <script>
         let chart = new Chart({
-          parent: "#chart", // or a DOM element
+          parent: "#chart",
           title: "Webtask Chart",
-          data: ${JSON.stringify(viewData.chartData)},
-          type: 'bar', // or 'line', 'scatter', 'pie', 'percentage'
+          data: ${JSON.stringify(data.chartData)},
+          type: ${JSON.stringify(data.chartType)},
           height: 250,
           colors: ['#7cd6fd', 'violet', 'blue'],
           format_tooltip_x: d => (d + '').toUpperCase(),
@@ -64,14 +65,15 @@ app.get('/', (req, res) => {
     </head>
     <body>
       <style>
-        body {font-family: 'Raleway', sans-serif; padding: 10%; background: ghostwhite}
+        body {font-family: 'Raleway', sans-serif; padding: 8%; background: ghostwhite}
         code {font-size: 15px; color: crimson;}
         h2 {color: cornflowerblue}
         textarea {width: 100%; height: 300px}
+        .green {color: orange}
       </style>
       <h1>Chart Webtask</h1>
-      <p>Generates a responsive chart from posted data using <a href="https://frappe.github.io/charts/" target="_blank">
-        Frappé Charts</a></p>
+      <p>Generates a responsive chart from posted data using <a href="https://frappe.github.io/charts/" 
+        target="_blank">Frappé Charts</a></p>
       
       <h2>End points: </h2>
       <hr>
@@ -84,13 +86,21 @@ app.get('/', (req, res) => {
       <ul> 
         <li>url: <code>/demo</code></li>
         <li>method GET</li>
-        <li>returns a <a href="/demo" target="_blank">demo of a default chart</a></li>
+        <li>returns a demo of a default chart</li>
+        <li>This route accepts the query parameter: <code class="green">chartType</code>
+        <li>The query parameter <code class="green">chartType</code> can have the following 
+          values: <code class="green">'bar', 'line', 'scatter', 'pie', 'percentage'</code></li>
+        <ul>
+          <li><a href="/demo" target="_blank">Demo of the default chart using bars</a></li>
+          <li><a href="/demo?chartType=linear" target="_blank">Demo of the default chart using parameter "pie"</a></li>
+        </ul>
       </ul>  
       <hr>
       <ul>
         <li>url: <code>/post</code></li>
          <li>method: POST</li>
          <li>The user can post data to this webtask url and gets a chart in return</li>
+         <li>This route also accept <code>chartType</code> as a parameter and his values</li>
       </ul>
       <hr>
       
@@ -131,26 +141,31 @@ app.get('/', (req, res) => {
 
 app.get('/demo', (req, res) => {
 
-  const HTML = renderView({
+  const chartType = req.query.chartType || 'bar';
+
+  const chartData = {
+    "labels": ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
+      "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
+    "datasets": [
+      {
+        "title": "Some Data",
+        "values": [25, 40, 30, 35, 8, 52, 17, -4]
+      },
+      {
+        "title": "Another Set",
+        "values": [25, 50, -10, 15, 18, 32, 27, 14]
+      },
+      {
+        "title": "Yet Another",
+        "values": [15, 20, -3, -15, 58, 12, -17, 37]
+      }
+    ]
+  };
+
+  const HTML = renderHTML({
     title: 'Demo Chart',
-    chartData: {
-      "labels": ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
-        "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
-      "datasets": [
-        {
-          "title": "Some Data",
-          "values": [25, 40, 30, 35, 8, 52, 17, -4]
-        },
-        {
-          "title": "Another Set",
-          "values": [25, 50, -10, 15, 18, 32, 27, 14]
-        },
-        {
-          "title": "Yet Another",
-          "values": [15, 20, -3, -15, 58, 12, -17, 37]
-        }
-      ]
-    }
+    chartType: chartType,
+    chartData: chartData
   });
 
   res.set('Content-Type', 'text/html');
@@ -166,12 +181,19 @@ app.get('/demo', (req, res) => {
 
 app.post('/post', (req, res) => {
 
-  const HTML = renderView({
-    title: 'Chart generated from data post to the server',
+  const chartType = req.query.type;
+
+  console.log('chart type', chartType);
+  console.log('chart data', req.body);
+
+  const HTML = renderHTML({
+    title: 'Chart generated from data posted to the server',
+    chartType: chartType,
     chartData: req.body
   });
 
   res.set('Content-Type', 'text/html');
+
   try {
     res.status(200).send(HTML);
   } catch (exception) {
@@ -180,7 +202,6 @@ app.post('/post', (req, res) => {
   }
 
 });
-
 
 module.exports = WebtaskTools.fromExpress(app);
 
