@@ -1,3 +1,4 @@
+'use latest';
 const express = require('express');
 const WebtaskTools = require('webtask-tools');
 const bodyParser = require('body-parser');
@@ -261,7 +262,7 @@ module.exports = WebtaskTools.fromExpress(app).auth0({
     res.writeHead(401, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       statusCode: 401,
-      message: "Forbidden. You must be authenticated with auth0 to access this resource."
+      message: "Forbidden. You must be authenticated to access this resource."
     }));
   }
 });
