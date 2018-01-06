@@ -222,7 +222,7 @@ app.post('/post', (req, res) => {
 
 /**
  * This is a demostration of restricted route.
- * Only authenticated requests have access
+ * It is not excluded from authentication therefore is restricted to authenticated users
  */
 app.get('/restricted', (req, res) => {
 
@@ -242,7 +242,7 @@ app.get('/restricted', (req, res) => {
 /**
  * Mangage route access
  * Routes excluded are accesible to anonymous users
- * Routes not excluded need authenticate to access
+ * Routes not excluded need authentication to access
  */
 module.exports = WebtaskTools.fromExpress(app).auth0({
   exclude: [
