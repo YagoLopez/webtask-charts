@@ -15,11 +15,6 @@ const SERVER_ERROR = '<h1 style="color: red">Server Error</h1>';
 app.use(bodyParser.json());
 
 
-
-
-
-
-
 //todo: probar a usar storage (lo veo dificil, no hay tiempo) podria comentarlo al fulano
 const renderHTML = (data) => {
   return `
@@ -97,16 +92,22 @@ app.get('/', (req, res) => {
           values: <code class="colored">bar, line, scatter, pie, percentage</code></li>
         <ul>
           <li class="pad5"><a href="${WEBTASK_NAME}/demo" target="_blank">Demo of the default chart using bars</a></li>
-          <li class="pad5"><a href="${WEBTASK_NAME}/demo?chartType=linear" target="_blank">Demo of the default chart 
-            using parameter "pie"</a></li>
+          <li class="pad5"><a href="${WEBTASK_NAME}/demo?chartType=line" target="_blank">Demo of the default chart 
+            using parameter "line"</a></li>
         </ul>
       </ul>  
       <hr>
       <ul>
         <li>url: <code>/post</code></li>
-         <li>method: POST</li>
-         <li>The user can post data to this webtask url and gets a chart in return</li>
-         <li>This route also accept <code class="colored">chartType</code> as a parameter and his values</li>
+        <li>method: POST</li>
+        <li>The user can post data to this url and gets a chart in return</li>
+        <li>This route also accept <code class="colored">chartType</code> as a parameter and his values</li>
+      </ul>
+      <hr>
+      <ul>
+        <li>url: <code>/restricted</code></li>
+        <li>method: GET</li>
+        <li>This is a example of route that needs authorization to access</li>
       </ul>
       <hr>
       
@@ -187,10 +188,10 @@ app.get('/demo', (req, res) => {
 
 app.post('/post', (req, res) => {
 
-  const chartType = req.query.type;
+  const chartType = req.query.chartType || 'bar';
 
-  console.log('chart type', chartType);
-  console.log('chart data', req.body);
+  console.log('chart type:', chartType);
+  console.log('chart data:', req.body);
 
   const HTML = renderHTML({
     title: 'Chart generated from data posted to the server',
@@ -209,7 +210,39 @@ app.post('/post', (req, res) => {
 
 });
 
-module.exports = WebtaskTools.fromExpress(app);
+app.get('/restricted', (req, res) => {
+
+  const HTML = '<h1>This is a restricted route</h1>';
+
+  res.set('Content-Type', 'text/html');
+
+  try {
+    res.status(200).send(HTML);
+  } catch (exception) {
+    res.status(500).send(SERVER_ERROR);
+    console.error(exception);
+  }
+
+});
+
+/**
+ * Mangage restricted routes
+ * Routes excluded are accesible to anonymous users
+ * Routes not excluded need credential to access (username, password)
+ */
+module.exports = WebtaskTools.fromExpress(app).auth0({
+  exclude: [
+    '/'
+  ],
+  loginError: function (error, ctx, req, res, baseUrl) {
+    // res.writeHead(401, { 'Content-Type': 'application/json' });
+    res.writeHead(401, { 'Content-Type': 'text/html' });
+    res.end(JSON.stringify({
+      statusCode: 401,
+      message: "You must be logged in to access this resource."
+    }));
+  }
+});
 
 app.listen(3000, () => {
   console.log('App listening on port 3000!');
