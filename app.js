@@ -3,10 +3,6 @@
 
 'use latest';
 
-// import express from 'express';
-// import { fromExpress } from 'webtask-tools';
-// import bodyParser from 'body-parser';
-
 const express = require('express');
 const WebtaskTools = require('webtask-tools');
 const bodyParser = require('body-parser');
@@ -22,7 +18,7 @@ const SERVER_ERROR = '<h1 style="color: red">Server Error</h1>';
 //todo: refactorizar locals nombre
 //todo: diferentes tipos de graficos
 //todo: probar a usar storage (lo veo dificil, no hay tiempo) podria comentarlo al fulano
-const renderView = (locals) => {
+const renderView = (viewData) => {
   return `
     <!DOCTYPE html>
     <html>
@@ -34,7 +30,7 @@ const renderView = (locals) => {
     </head>
 
     <body style="font-family: 'Raleway', sans-serif; padding: 8%; background: ghostwhite">
-      <h1>${locals.title}</h1>
+      <h1>${viewData.title}</h1>
       
       <div id="chart"></div>
       
@@ -42,7 +38,7 @@ const renderView = (locals) => {
         let chart = new Chart({
           parent: "#chart", // or a DOM element
           title: "Webtask Chart",
-          data: ${JSON.stringify(locals.data)},
+          data: ${JSON.stringify(viewData.chartData)},
           type: 'bar', // or 'line', 'scatter', 'pie', 'percentage'
           height: 250,
           colors: ['#7cd6fd', 'violet', 'blue'],
@@ -80,19 +76,19 @@ app.get('/', (req, res) => {
       <h2>End points: </h2>
       <hr>
       <ul>
-        <li>url: /</li>
+        <li>url: <code>/</code></li>
         <li>method: GET</li>
         <li>returns this screen with information about the webtask</li>
       </ul>
       <hr>
       <ul> 
-        <li>url: /chart</li>
+        <li>url: <code>/demo</code></li>
         <li>method GET</li>
-        <li>returns a <a href="/chart" target="_blank">demo of a default chart</a></li>
+        <li>returns a <a href="/demo" target="_blank">demo of a default chart</a></li>
       </ul>  
       <hr>
       <ul>
-        <li>url: /chart</li>
+        <li>url: <code>/post</code></li>
          <li>method: POST</li>
          <li>The user can post data to this webtask url and gets a chart in return</li>
       </ul>
@@ -105,7 +101,7 @@ app.get('/', (req, res) => {
       <div>Check <a href="https://frappe.github.io/charts/" target="_blank">Frappé Charts</a> 
         website for more information</div>
       <p>For example. Making a POST request with the following data in the body to the webtask url and adding the
-        path <code>/chart</code> will get the demo chart:</p>
+        path <code>/post</code> will get the demo chart:</p>
         <textarea>
           {
           "labels": ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
@@ -133,11 +129,11 @@ app.get('/', (req, res) => {
   `);
 });
 
-app.get('/chart', (req, res) => {
+app.get('/demo', (req, res) => {
 
   const HTML = renderView({
     title: 'Demo Chart',
-    data: {
+    chartData: {
       "labels": ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
         "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
       "datasets": [
@@ -168,11 +164,11 @@ app.get('/chart', (req, res) => {
 
 });
 
-app.post('/chart', (req, res) => {
+app.post('/post', (req, res) => {
 
   const HTML = renderView({
     title: 'Chart generated from data post to the server',
-    data: req.body
+    chartData: req.body
   });
 
   res.set('Content-Type', 'text/html');
