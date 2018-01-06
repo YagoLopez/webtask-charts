@@ -7,17 +7,19 @@ const express = require('express');
 const WebtaskTools = require('webtask-tools');
 const bodyParser = require('body-parser');
 // const frappeCharts = require('./node_modules/frappe-charts/dist/frappe-charts.min.cjs');
-
 const app = express();
+
+const WEBTASK_NAME = '';
+const SERVER_ERROR = '<h1 style="color: red">Server Error</h1>';
 
 app.use(bodyParser.json());
 
-const WEBTASK_NAME = '/';
-
-const SERVER_ERROR = '<h1 style="color: red">Server Error</h1>';
 
 
-//todo: diferentes tipos de graficos
+
+
+
+
 //todo: probar a usar storage (lo veo dificil, no hay tiempo) podria comentarlo al fulano
 const renderHTML = (data) => {
   return `
@@ -53,7 +55,9 @@ const renderHTML = (data) => {
 };
 
 app.get('/', (req, res) => {
+
   res.set('Content-Type', 'text/html');
+
   res.status(200).send(`
     <!DOCTYPE html>
     <html>
@@ -66,13 +70,14 @@ app.get('/', (req, res) => {
     <body>
       <style>
         body {font-family: 'Raleway', sans-serif; padding: 8%; background: ghostwhite}
-        code {font-size: 15px; color: crimson;}
+        code {font-size: 15px; color: crimson; background-color: #efefef}
         h2 {color: cornflowerblue}
         textarea {width: 100%; height: 300px}
-        .green {color: orange}
+        .colored {color: grey}
+        .pad5 {padding: 5px}
       </style>
       <h1>Chart Webtask</h1>
-      <p>Generates a responsive chart from posted data using <a href="https://frappe.github.io/charts/" 
+      <p>Generates a responsive chart using <a href="https://frappe.github.io/charts/" 
         target="_blank">Frappé Charts</a></p>
       
       <h2>End points: </h2>
@@ -87,12 +92,13 @@ app.get('/', (req, res) => {
         <li>url: <code>/demo</code></li>
         <li>method GET</li>
         <li>returns a demo of a default chart</li>
-        <li>This route accepts the query parameter: <code class="green">chartType</code>
-        <li>The query parameter <code class="green">chartType</code> can have the following 
-          values: <code class="green">'bar', 'line', 'scatter', 'pie', 'percentage'</code></li>
+        <li>This route accepts the query parameter: <code class="colored">chartType</code>
+        <li>The query parameter <code class="colored">chartType</code> can have the following 
+          values: <code class="colored">bar, line, scatter, pie, percentage</code></li>
         <ul>
-          <li><a href="/demo" target="_blank">Demo of the default chart using bars</a></li>
-          <li><a href="/demo?chartType=linear" target="_blank">Demo of the default chart using parameter "pie"</a></li>
+          <li class="pad5"><a href="${WEBTASK_NAME}/demo" target="_blank">Demo of the default chart using bars</a></li>
+          <li class="pad5"><a href="${WEBTASK_NAME}/demo?chartType=linear" target="_blank">Demo of the default chart 
+            using parameter "pie"</a></li>
         </ul>
       </ul>  
       <hr>
@@ -100,13 +106,13 @@ app.get('/', (req, res) => {
         <li>url: <code>/post</code></li>
          <li>method: POST</li>
          <li>The user can post data to this webtask url and gets a chart in return</li>
-         <li>This route also accept <code>chartType</code> as a parameter and his values</li>
+         <li>This route also accept <code class="colored">chartType</code> as a parameter and his values</li>
       </ul>
       <hr>
       
       <h2>Chart data format:</h2>
       
-      <p><code>{data: {labels: string[]}, datasets: {title: string, values: number[]}</code></p>
+      <p><code class="colored">{data: {labels: string[]}, datasets: {title: string, values: number[]}</code></p>
       
       <div>Check <a href="https://frappe.github.io/charts/" target="_blank">Frappé Charts</a> 
         website for more information</div>
@@ -136,7 +142,7 @@ app.get('/', (req, res) => {
         <p style="text-align: center">Developed by Yago Lopez</div>
     </body>
     </html>
-  `);
+  `)
 });
 
 app.get('/demo', (req, res) => {
