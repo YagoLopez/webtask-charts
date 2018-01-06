@@ -5,14 +5,17 @@ const express = require('express');
 const WebtaskTools = require('webtask-tools');
 const bodyParser = require('body-parser');
 const app = express();
-
 const WEBTASK_NAME = '';
 const SERVER_ERROR = '<h1 style="color: red">Server Error</h1>';
-
 app.use(bodyParser.json());
 
 
-//todo: probar a usar storage (lo veo dificil, no hay tiempo) podria comentarlo al fulano
+/**
+ * Rendrer HTML view with data from de model
+ *
+ * @param data {object} Model data in MVC
+ * @returns {string} string with HTML template and data interpolated
+ */
 const renderHTML = (data) => {
   return `
     <!DOCTYPE html>
@@ -46,6 +49,9 @@ const renderHTML = (data) => {
   `;
 };
 
+/**
+ * Base route that renders the initial page
+ */
 app.get('/', (req, res) => {
 
   res.set('Content-Type', 'text/html');
@@ -77,7 +83,7 @@ app.get('/', (req, res) => {
       <ul>
         <li>url: <code>/</code></li>
         <li>method: GET</li>
-        <li>returns this screen with information about the webtask</li>
+        <li>returns initial screen with information about the webtask</li>
       </ul>
       <hr>
       <ul> 
@@ -88,7 +94,8 @@ app.get('/', (req, res) => {
         <li>The query parameter <code class="colored">chartType</code> can have the following 
           values: <code class="colored">bar, line, scatter, pie, percentage</code></li>
         <ul>
-          <li class="pad5"><a href="${WEBTASK_NAME}/demo" target="_blank">Demo of the default chart using bars</a></li>
+          <li class="pad5"><a href="${WEBTASK_NAME}/demo" target="_blank">Demo of the default chart using 
+            parameter "bar"</a></li>
           <li class="pad5"><a href="${WEBTASK_NAME}/demo?chartType=line" target="_blank">Demo of the default chart 
             using parameter "line"</a></li>
         </ul>
@@ -111,7 +118,6 @@ app.get('/', (req, res) => {
       <h2>Chart data format:</h2>
       
       <p><code class="colored">{data: {labels: string[]}, datasets: {title: string, values: number[]}</code></p>
-      
 
       <p>For example, to make a POST request include the following data in the body and send a request to the webtask url 
         adding <code>/post</code> to the path:</p>
@@ -144,6 +150,10 @@ app.get('/', (req, res) => {
   `)
 });
 
+/**
+ * Rendes a demo of a chart with predefined data
+ * Accept a query string parameter (chartType) to indicate the type of chart to draw
+ */
 app.get('/demo', (req, res) => {
 
   const chartType = req.query.chartType || 'bar';
@@ -184,6 +194,11 @@ app.get('/demo', (req, res) => {
 
 });
 
+/**
+ * Receive chart data from the request body and create a chart from it
+ * Accept a query string parameter (chartType) to indicate the type of chart to draw
+ * the same as '/demo' route
+ */
 app.post('/post', (req, res) => {
 
   const chartType = req.query.chartType || 'bar';
@@ -208,6 +223,10 @@ app.post('/post', (req, res) => {
 
 });
 
+/**
+ * This is a demostration of restricted route.
+ * Only authenticated requests have access
+ */
 app.get('/restricted', (req, res) => {
 
   const HTML = '<h1>This is a restricted route</h1>';
@@ -224,20 +243,21 @@ app.get('/restricted', (req, res) => {
 });
 
 /**
- * Mangage restricted routes
+ * Mangage route access
  * Routes excluded are accesible to anonymous users
- * Routes not excluded need credential to access (username, password)
+ * Routes not excluded need authenticate to access
  */
 module.exports = WebtaskTools.fromExpress(app).auth0({
   exclude: [
-    '/'
+    '/',
+    '/demo',
+    '/post'
   ],
   loginError: function (error, ctx, req, res, baseUrl) {
-    // res.writeHead(401, { 'Content-Type': 'application/json' });
-    res.writeHead(401, { 'Content-Type': 'text/html' });
+    res.writeHead(401, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       statusCode: 401,
-      message: "You must be logged in to access this resource."
+      message: "Forbidden. You must be authenticated with auth0 to access this resource."
     }));
   }
 });

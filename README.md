@@ -15,7 +15,7 @@
 
 - url: `/`
 - method: GET
-- returns this screen with information about the webtask
+- returns initial screen with information about the webtask
 
 ------
 
