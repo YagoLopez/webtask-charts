@@ -1,6 +1,3 @@
-//todo: caso de uso: con mas tiempo se podrian haber scrappeado los datos tabulares de otra web usando cheerio
-// para crear una gráfica
-
 const express = require('express');
 const WebtaskTools = require('webtask-tools');
 const bodyParser = require('body-parser');
@@ -12,7 +9,6 @@ app.use(bodyParser.json());
 
 /**
  * Rendrer HTML view with data from de model
- *
  * @param data {object} Model data in MVC
  * @returns {string} string with HTML template and data interpolated
  */
@@ -111,7 +107,8 @@ app.get('/', (req, res) => {
       <ul>
         <li>url: <code>/restricted</code></li>
         <li>method: GET</li>
-        <li>This is a example of route that needs authorization to access</li>
+        <li><a href="${WEBTASK_NAME}/restricted" target="_blank">This is a example of restricted route 
+          to unauthorized users</a></li>
       </ul>
       <hr>
       
@@ -207,7 +204,7 @@ app.post('/post', (req, res) => {
   console.log('chart data:', req.body);
 
   const HTML = renderHTML({
-    title: 'Chart generated from data posted to the server',
+    title: 'Chart dynamically created with data posted to the server',
     chartType: chartType,
     chartData: req.body
   });
