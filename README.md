@@ -5,7 +5,7 @@
 - Example of servless code running on https://webtask.io
 
 
-- Generates a responsive charts data using <a href="https://frappe.github.io/charts/" target="_blank">Frappé Charts</a> library
+- Generates responsive charts data using <a href="https://frappe.github.io/charts/" target="_blank">Frappé Charts</a> library
 
 
 
@@ -15,7 +15,7 @@
 
 - url: `/`
 - method: GET
-- returns initial screen with information about the webtask
+- [returns initial screen with information about the webtask](https://wt-26c8d8dafc4cb18db903554c4e796c40-0.run.webtask.io/chart)
 
 ------
 
@@ -29,21 +29,19 @@
 
 - The query parameter `chartType` can have the following values: `bar, line, scatter, pie, percentage`
 
-- - [Demo of the default chart using bars](https://wt-26c8d8dafc4cb18db903554c4e796c40-0.run.webtask.io/chart)
-  - [Demo of the default chart using parameter "line"](https://wt-26c8d8dafc4cb18db903554c4e796c40-0.run.webtask.io/chart?chartType=line)
 
 ------
 
 - url: `/post`
 - method: POST
-- [The user can post data to this url and gets a chart in return](https://wt-26c8d8dafc4cb18db903554c4e796c40-0.run.webtask.io/chart/post)
+- The user can post data to this url and gets a chart in return
 - This route also accept `chartType` as a parameter and his values
 
 ------
 
 - url: `/restricted`
 - method: GET
-- [This is a example of route that needs authorization to access](https://wt-26c8d8dafc4cb18db903554c4e796c40-0.run.webtask.io/chart/restricted)
+- This is a example of route that needs authorization to access
 
 ------
 
@@ -74,6 +72,6 @@ For example, to make a POST request include the following data in the body and s
             }
           ]
         }
-Check [Frappé Charts](https://frappe.github.io/charts/) website for more information
+
 
 Developed by Yago Lopez
