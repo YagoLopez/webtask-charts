@@ -51,7 +51,7 @@
 
 `{data: {labels: string[]}, datasets: {title: string, values: number[]}`
 
-For example, to make a POST request include the following data in the body and send a request to the webtask url adding `/post` to the path:
+For example, to get a chart from user data, send a POST request to the webtask url adding `/post` to the path with the following data in the request body:
 
           {
           "labels": ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
@@ -72,6 +72,7 @@ For example, to make a POST request include the following data in the body and s
             }
           ]
         }
+
 
 
 Developed by Yago Lopez

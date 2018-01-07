@@ -117,8 +117,9 @@ app.get('/', (req, res) => {
       
       <p><code class="colored">{data: {labels: string[]}, datasets: {title: string, values: number[]}</code></p>
 
-      <p>For example, to make a POST request include the following data in the body and send a request to the webtask url 
-        adding <code>/post</code> to the path:</p>
+      <p>For example, to get a chart from user data, send a POST request to 
+        the <code>/post</code> <a href="${WEBTASK_NAME}/post" target="_blank">route</a></p> with the following data
+        in the request body:</p>
         <textarea>
           {
           "labels": ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
@@ -140,8 +141,6 @@ app.get('/', (req, res) => {
           ]
         }
         </textarea>
-      <p>Check <a href="https://frappe.github.io/charts/" target="_blank">Frappé Charts</a> 
-        website for more information</p>
       <p style="text-align: center">Developed by Yago Lopez</div>
     </body>
     </html>
