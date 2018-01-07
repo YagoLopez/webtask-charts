@@ -229,7 +229,7 @@ app.post('/post', (req, res) => {
 
 /**
  * This is a demostration of restricted route.
- * It is not excluded from authentication therefore is restricted to authenticated users
+ * It is not excluded from authentication therefore is restricted to unauthenticated users
  */
 app.get('/restricted', (req, res) => {
 
