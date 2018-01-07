@@ -3,7 +3,7 @@ const express = require('express');
 const WebtaskTools = require('webtask-tools');
 const bodyParser = require('body-parser');
 const app = express();
-const WEBTASK_NAME = '';
+const WEBTASK_NAME = '/chart';
 const SERVER_ERROR = '<h1 style="color: red">Server Error</h1>';
 app.use(bodyParser.json());
 
@@ -91,7 +91,7 @@ app.get('/', (req, res) => {
         <li>The query parameter <code class="colored">chartType</code> can have the following 
           values: <code class="colored">bar, line, scatter, pie, percentage</code></li>
         <ul>
-          <li class="pad5"><a href="${WEBTASK_NAME}/demo" target="_blank">Demo of default chart using 
+          <li class="pad5"><a href="${WEBTASK_NAME}/demo?chartType=bar" target="_blank">Demo of default chart using 
             parameter "bar"</a></li>
           <li class="pad5"><a href="${WEBTASK_NAME}/demo?chartType=line" target="_blank">Demo of default chart 
             using parameter "line"</a></li>
