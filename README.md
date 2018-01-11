@@ -49,7 +49,7 @@
 
 ### Chart data format:
 
-```javascript
+```json
 { 
 	"labels": string[], 
 	"datasets": [
@@ -63,7 +63,7 @@
 
 For example, to get a chart from user data, send a **POST** request to the webtask url adding `/post` to the path with the following data in the request body:
 
-```javascript
+```json
 {
     "labels": ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
       "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
