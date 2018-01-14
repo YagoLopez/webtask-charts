@@ -14,14 +14,14 @@
 ------
 
 - **url**: `/`
-- **method**: *GET*
+- **method**: GET
 - [returns initial screen with information about the webtask](https://wt-26c8d8dafc4cb18db903554c4e796c40-0.run.webtask.io/chart)
 
 ------
 
 - **url**: `/demo`
 
-- **method** *GET*
+- **method** GET
 
 - returns a demo of a default chart
 
@@ -33,14 +33,14 @@
 ------
 
 - **url**: `/post`
-- **method**: *POST*
+- **method**: POST
 - The user can post data to this url and gets a chart in return
 - This route also accept `chartType` as a parameter with the before mentioned values
 
 ------
 
 - **url**: `/restricted`
-- **method**: *GET*
+- **method**: GET
 - This is a example of route that needs authorization to access
 
 ------
@@ -49,15 +49,15 @@
 
 ### Chart data format:
 
-```json
+```javascript
 { 
-	"labels": string[], 
-	"datasets": [
-		{
-			"title": string, 
-			"values": number[]
-        }
-    ]
+  "labels": string[], 
+  "datasets": [
+    {
+      "title": string, 
+      "values": number[]
+    }
+  ]
 }
 ```
 
@@ -65,23 +65,23 @@ For example, to get a chart from user data, send a **POST** request to the webta
 
 ```json
 {
-    "labels": ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
-      "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
+  "labels": ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
+    "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
 
-    "datasets": [
-     {
-        "title": "Some Data",
-        "values": [25, 40, 30, 35, 8, 52, 17, -4]
-      },
-      {
-        "title": "Another Set",
-        "values": [25, 50, -10, 15, 18, 32, 27, 14]
-      },
-      {
-        "title": "Yet Another",
-        "values": [15, 20, -3, -15, 58, 12, -17, 37]
-      }
-    ]
+  "datasets": [
+    {
+      "title": "Some Data",
+      "values": [25, 40, 30, 35, 8, 52, 17, -4]
+    },
+    {
+      "title": "Another Set",
+      "values": [25, 50, -10, 15, 18, 32, 27, 14]
+    },
+    {
+      "title": "Yet Another",
+      "values": [15, 20, -3, -15, 58, 12, -17, 37]
+    }
+  ]
 }
 ```
 

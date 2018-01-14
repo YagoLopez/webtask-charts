@@ -7,7 +7,9 @@
     "start": "node_modules\\.bin\\nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "live-server": "live-server --port=3000",
-    "debug": "node --inspect app.js"
+    "debug": "node --inspect app.js",
+    "debug2": "node --inspect --inspect-brk app.js",
+    "node-tracing": "node --trace-events-enabled app.js"
   },
   "keywords": [
     "webtasks.io",

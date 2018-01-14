@@ -102,7 +102,7 @@ app.get('/', (req, res) => {
         <li>url: <code>/post</code></li>
         <li>method: POST</li>
         <li>The user can post data to this url and gets a chart in return</li>
-        <li>This route also accept <code class="colored">chartType</code> as a parameter and his values</li>
+        <li>This route also accept <code class="colored">chartType</code> as a parameter and its values</li>
       </ul>
       <hr>
       <ul>
@@ -149,7 +149,7 @@ app.get('/', (req, res) => {
 
 /**
  * Rendes a demo of a chart with predefined data
- * Accept a query string parameter (chartType) to indicate the type of chart to draw
+ * Accepts a query string parameter (chartType) to indicate the type of chart to draw
  */
 app.get('/demo', (req, res) => {
 
@@ -192,8 +192,8 @@ app.get('/demo', (req, res) => {
 });
 
 /**
- * Receive chart data from the request body and create a chart from it
- * Accept a query string parameter (chartType) to indicate the type of chart to draw
+ * Receives chart data from the request body and create a chart from it
+ * Accepts a query string parameter (chartType) to indicate the type of chart to draw
  * the same as '/demo' route
  * The resulting chart can be embbeded in a iframe to show it
  */
